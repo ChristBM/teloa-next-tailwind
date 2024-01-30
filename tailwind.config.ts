@@ -69,7 +69,7 @@ const config: Config = {
       '7': '1.75rem',   // 28px
       '8': '2rem',      // 32px
       '10': '2.5rem',   // 40px
-      '11': '3,375rem', // 54px
+      '11': '3.375rem', // 54px
     },
     listStyleType: {    // list-
       none: 'none',

@@ -11,6 +11,15 @@ export const metadata: Metadata = {
   },
   description: 'insert description here',
   // metadataBase: new URL('https://teloa.com'),
+  /* themeColor: [
+		{ media: "(prefers-color-scheme: light)", color: "white" },
+		{ media: "(prefers-color-scheme: dark)", color: "black" },
+	], */
+  /* icons: {
+		icon: "/favicon.ico",
+		shortcut: "/favicon-16x16.png",
+		apple: "/apple-touch-icon.png",
+	}, */
 };
 
 export async function generateStaticParams() {

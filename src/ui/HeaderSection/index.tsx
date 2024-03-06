@@ -7,6 +7,7 @@ import { getLanding } from "@/lib/data";
 import Offers from "@/ui/Offers";
 import RechargeBtn from "@/ui/RechargeBtn";
 import { LandingCarrier, LandingType, Locale } from "@/common/definitions";
+import { landingData } from "@/lib/landingData";
 
 export default async function HeaderSection({
   lng,
@@ -14,7 +15,8 @@ export default async function HeaderSection({
   carrier,
 } : { lng: Locale; type: LandingType; carrier: LandingCarrier; }
 ) {
-  const landing = await getLanding({ type, carrier, lng })
+  const data = await getLanding({ type, carrier, lng })
+  const landing = landingData(data)
 
   const { t } = await useTranslation(lng)
 

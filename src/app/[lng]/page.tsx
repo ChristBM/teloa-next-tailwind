@@ -24,6 +24,24 @@ export default async function Home({ params: { lng } }: { params: { lng: Locale 
       <Link href={`${lng}/landing/acquisition/lyca-mobile`} className="text-plancton-link underline">
         {t('to-acquisition-page-lyca-mobile')}
       </Link>
+
+      <br/>
+
+      <Link href={`${lng}/landing/acquisition-multicarrier`} className="text-plancton-link underline">
+        {t('to-acquisition-multi-carrier')}
+      </Link>
+
+      <br/>
+
+      <Link href={`${lng}/landing/promotion`} className="text-plancton-link underline">
+        {t('to-promotion')}
+      </Link>
+
+      <br/>
+
+      <Link href={`${lng}/landing/promotion-multicarrier`} className="text-plancton-link underline">
+        {t('to-promotion-multi-carrier')}
+      </Link>
     </main>
   );
 }

@@ -1,44 +1,46 @@
-import { LandingCarrier, LandingType, Locale } from '@/common/definitions'
-import { getLanding } from '@/lib/data'
 import { draftMode } from 'next/headers'
 import { redirect } from 'next/navigation'
-// https://<your-site>/api/draft?secret=<token>&slug=<path>&design=<number>
+import { getDraft } from '@/lib/getDraft'
+
+const apiEndpoint: { [key: string]: string } = {
+  'acquisition': 'acquisitions',
+  'acquisition-multi-carrier': 'acquisition-multi-carriers'
+}
 
 export async function GET(request: Request) {
-  // Parse query string parameters
   const { searchParams } = new URL(request.url)
   const secret = searchParams.get('secret')
-  const slug = searchParams.get('slug')
-  const design = searchParams.get('design')
+  const path = searchParams.get('path')
+  const filters = searchParams.get('filters')
 
-  // Check the secret and next parameters
-  // This secret should only be known to this route handler and the CMS
-  if (secret !== process.env.DRAFT_SECRET || !slug) {
+  if (secret !== process.env.DRAFT_SECRET || !path) {
     return new Response('Invalid token', { status: 401 })
   }
 
-  const splitSlug = slug.split(',')
+  const splitPath = path.split('/')
+  const lngFilter = `locale=${splitPath[0]}`;
+  const endpoint = apiEndpoint[splitPath[2]];
+  const stateFilter = 'publicationState=preview&filters[publishedAt][$null]=true'
 
-  // Fetch the headless CMS to check if the provided `slug` exists
-  // getPostBySlug would implement the required fetching logic to the headless CMS
-  const post = await getLanding({
-    type: splitSlug[1] as LandingType,
-    carrier: splitSlug[2] as LandingCarrier,
-    lng: splitSlug[0] as Locale,
-    publicationState: 'preview'
-  })
+  let myURL = `${process.env.API_URL}/${endpoint}?${lngFilter}&${stateFilter}`
 
-  // If the slug doesn't exist prevent draft mode from being enabled
-  if (!post) {
-    return new Response('Invalid slug', { status: 401 })
+  if(filters && filters.length) {
+    const splitFilters = filters.split(',')
+
+    splitFilters.forEach((filter) => {
+      const filterElements = filter.split('=')
+      const name = filterElements[0]
+      const value = filterElements[1]
+
+      myURL = myURL + `&filters[${name}][$eq]=${value}`
+    })
   }
 
-  // Enable Draft Mode by setting the cookie
+  const post = await getDraft(myURL)
+
+  if (!post) return new Response('Invalid slug', { status: 401 })
+
   draftMode().enable()
 
-  const queryP = design ? `?design=${design}` : '/'
-
-  // Redirect to the path from the fetched post
-  // We don't redirect to searchParams.slug as that might lead to open redirect vulnerabilities
-  redirect(`${process.env.BASE_URL}${splitSlug[0]}/landing/${splitSlug[1]}/${splitSlug[2]}${queryP}`)
+  redirect(`${process.env.BASE_URL}${path}`)
 }

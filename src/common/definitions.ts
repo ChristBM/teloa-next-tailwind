@@ -1,21 +1,22 @@
 export type Locale = 'en' | 'es'; // {lng}
 
-export type LandingType = 'retention' | 'acquisition' | 'resurrection' // {type}
+export type LandingType = 'acquisition' | 'acquisition-multi-carrier' | 'promotion' | 'promotion-multi-carrier' // {type}
 
-export const landingTypeParams: LandingType[] = ['retention' , 'acquisition' , 'resurrection']
+export const landingTypeParams: LandingType[] = ['acquisition' , 'acquisition-multi-carrier', 'promotion', 'promotion-multi-carrier']
 
 export const TYPE: Record<LandingType, string> = {
-  'retention': 'Retention',
-  'acquisition': 'Acquisition',
-  'resurrection': 'Resurrection',
+  'acquisition': 'acquisition',
+  'acquisition-multi-carrier': 'acquisition-multi-carrier',
+  'promotion': 'promotion',
+  'promotion-multi-carrier': 'promotion-multi-carrier',
 }
 
 export type LandingCarrier = 'net10-wireless' | 'lyca-mobile' | 't-mobile' // {carrier}
 
 export const CARRIERS: Record<LandingCarrier, string> = {
-  'net10-wireless': 'Net10 Wireless',
-  'lyca-mobile': 'Lyca Mobile',
-  't-mobile': 'T-Mobile',
+  'net10-wireless': 'net10-wireless',
+  'lyca-mobile': 'lyca-mobile',
+  't-mobile': 't-mobile',
 }
 
 export const landingCarrierParams:  LandingCarrier[] = ['net10-wireless' , 'lyca-mobile' , 't-mobile']

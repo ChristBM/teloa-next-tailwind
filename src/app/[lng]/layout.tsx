@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { dir } from 'i18next';
 
-import { Providers } from "@/common/providers";
 import { inter, roboto } from "@/common/fonts";
 import "@/common/globals.css";
 
@@ -39,9 +38,7 @@ export default function RootLayout({
   return (
     <html lang={lng} dir={dir(lng)} suppressHydrationWarning>
       <body className={`${inter.className} ${roboto.variable} antialiased`}>
-        <Providers>
-          {children}
-        </Providers>
+        {children}
       </body>
     </html>
   );

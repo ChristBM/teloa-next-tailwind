@@ -1,4 +1,5 @@
-const apiURL = process.env.API_BASE_URL
+const apiURL = process.env.API_URL
+const removeLastSlash = apiURL?.replace(/\/$/, '')
 
 export function landingData(data: any[]) {
   if (data.length) {
@@ -6,7 +7,7 @@ export function landingData(data: any[]) {
 
     const landing = {
       title: attributes.title,
-      logo: `${apiURL}${attributes.logo.data.attributes.url}`,
+      logo: `${removeLastSlash}${attributes.logo.data.attributes.url}`,
       plans: attributes['carrier_plan'].map((plan: any) => ({
         id: plan.id,
         title: plan.text,
@@ -15,7 +16,7 @@ export function landingData(data: any[]) {
           old: plan['old_price'],
           currency: plan.currency
         },
-        logo: `${apiURL}${plan.logo.data.attributes.url}`,
+        logo: `${removeLastSlash}${plan.logo.data.attributes.url}`,
       })),
     }
 

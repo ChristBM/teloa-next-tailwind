@@ -1,7 +1,7 @@
 import { draftMode } from 'next/headers'
 import { LandingCarrier, LandingType, Locale } from "@/common/definitions"
 
-const api = process.env.API_URL
+const apiURL = `${process.env.API_URL}api`
 
 const apiEndpoint: { [key: string]: string } = {
   'acquisition': 'acquisitions',
@@ -21,7 +21,7 @@ export async function getLanding({
     : 'publicationState=live';
   const populate = carrier ? 'populate=title,logo,carrier_plan.logo' : 'populate=title,logos';
 
-  const url = `${api}/${apiEndpoint[type]}?${lngFilter}&${stateFilter}&${carrierFilter}&${populate}`;
+  const url = `${apiURL}/${apiEndpoint[type]}?${lngFilter}&${stateFilter}&${carrierFilter}&${populate}`;
   const res = await fetch(url)
 
   if (!res.ok) {

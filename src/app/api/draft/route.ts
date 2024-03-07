@@ -7,34 +7,24 @@ const apiEndpoint: { [key: string]: string } = {
   'acquisition-multi-carrier': 'acquisition-multi-carriers'
 }
 
+const apiURL = `${process.env.API_URL}api`
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const secret = searchParams.get('secret')
   const path = searchParams.get('path')
-  const filters = searchParams.get('filters')
 
   if (secret !== process.env.DRAFT_SECRET || !path) {
-    return new Response('Invalid token', { status: 401 })
+    return new Response('Invalid token or path', { status: 401 })
   }
 
-  const splitPath = path.split('/')
+  const removeFirstSlash = path.replace(/^\//, '')
+  const splitPath = removeFirstSlash.split('/')
   const lngFilter = `locale=${splitPath[0]}`;
   const endpoint = apiEndpoint[splitPath[2]];
   const stateFilter = 'publicationState=preview&filters[publishedAt][$null]=true'
 
-  let myURL = `${process.env.API_URL}/${endpoint}?${lngFilter}&${stateFilter}`
-
-  if(filters && filters.length) {
-    const splitFilters = filters.split(',')
-
-    splitFilters.forEach((filter) => {
-      const filterElements = filter.split('=')
-      const name = filterElements[0]
-      const value = filterElements[1]
-
-      myURL = myURL + `&filters[${name}][$eq]=${value}`
-    })
-  }
+  let myURL = `${apiURL}/${endpoint}?${lngFilter}&${stateFilter}&filters[path][$eq]=${path}`
 
   const post = await getDraft(myURL)
 

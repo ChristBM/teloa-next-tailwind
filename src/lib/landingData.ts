@@ -1,5 +1,8 @@
-const apiURL = process.env.API_URL
-const removeLastSlash = apiURL?.replace(/\/$/, '')
+// if you are consuming from Strapi local use this to conform the url of the images
+// const apiURL = process.env.API_URL
+// const removeLastSlash = apiURL?.replace(/\/$/, '')
+// logo: `${removeLastSlash}${attributes.logo.data.attributes.url}`,
+// logo: `${removeLastSlash}${plan.logo.data.attributes.url}`,
 
 export function landingData(data: any[]) {
   if (data.length) {
@@ -7,7 +10,7 @@ export function landingData(data: any[]) {
 
     const landing = {
       title: attributes.title,
-      logo: `${removeLastSlash}${attributes.logo.data.attributes.url}`,
+      logo: attributes.logo.data.attributes.url,
       plans: attributes['carrier_plan'].map((plan: any) => ({
         id: plan.id,
         title: plan.text,
@@ -16,7 +19,7 @@ export function landingData(data: any[]) {
           old: plan['old_price'],
           currency: plan.currency
         },
-        logo: `${removeLastSlash}${plan.logo.data.attributes.url}`,
+        logo: plan.logo.data.attributes.url,
       })),
     }
 

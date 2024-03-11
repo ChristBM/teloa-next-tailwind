@@ -1,15 +1,15 @@
-import { LandingCarrier, Locale } from "@/common/definitions";
-import { getLanding } from "@/lib/data";
+import { Locale } from "@/common/definitions";
+import { getData } from "@/lib/data";
 import { landingMultiCarrierData } from "@/lib/landingData";
 
 const type = 'acquisition-multi-carrier'
 
 export default async function AcquisitionMultiCarrierPage({
-  params: { lng, carrier },
+  params: { lng },
 } : {
-  params: { lng: Locale; carrier: LandingCarrier; },
+  params: { lng: Locale },
 }) {
-  const data = await getLanding({ type, carrier, lng })
+  const data = await getData({ path: `/${lng}/landing/${type}`, populate: 'populate=title,logos' })
   const attributes = landingMultiCarrierData(data)
 
   return (

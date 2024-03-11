@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 
 import NavBar from "@/ui/NavBar";
 import HeaderSection from "@/ui/HeaderSection";
-import { CARRIERS, LandingCarrier, Locale, landingCarrierParams } from "@/common/definitions";
+import { CARRIERS, LandingCarrier, Locale } from "@/common/definitions";
+import { getCollection } from "@/lib/data";
 
 const type = 'acquisition'
 
@@ -12,7 +13,9 @@ export const metadata: Metadata = {
 };
 
 export async function generateStaticParams() {
-  return landingCarrierParams.map((carrier) => ({ carrier }))
+  const collection = await getCollection(type)
+
+  return collection.schema.attributes.carrier.enum as LandingCarrier[]
 };
 
 export default async function AcquisitionCarrierPage({

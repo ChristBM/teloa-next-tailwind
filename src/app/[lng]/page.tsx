@@ -27,7 +27,7 @@ export default async function Home({ params: { lng } }: { params: { lng: Locale 
 
       <br/>
 
-      <Link href={`${lng}/landing/acquisition-multicarrier`} className="text-plancton-link underline">
+      <Link href={`${lng}/landing/acquisition-multi-carrier`} className="text-plancton-link underline">
         {t('to-acquisition-multi-carrier')}
       </Link>
 

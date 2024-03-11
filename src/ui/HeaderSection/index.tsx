@@ -2,7 +2,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 
 import { useTranslation } from "@/app/i18n";
-import { getLanding } from "@/lib/data";
+import { getData } from "@/lib/data";
 
 import Offers from "@/ui/Offers";
 import RechargeBtn from "@/ui/RechargeBtn";
@@ -15,7 +15,7 @@ export default async function HeaderSection({
   carrier,
 } : { lng: Locale; type: LandingType; carrier: LandingCarrier; }
 ) {
-  const data = await getLanding({ type, carrier, lng })
+  const data = await getData({ path: `/${lng}/landing/${type}/${carrier}`, populate: 'populate=title,logo,carrier_plan.logo' })
   const landing = landingData(data)
 
   const { t } = await useTranslation(lng)

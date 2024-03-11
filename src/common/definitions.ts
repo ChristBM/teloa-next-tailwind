@@ -9,5 +9,3 @@ export const CARRIERS: Record<LandingCarrier, string> = {
   'lyca-mobile': 'lyca-mobile',
   't-mobile': 't-mobile',
 }
-
-export const landingCarrierParams:  LandingCarrier[] = ['net10-wireless' , 'lyca-mobile' , 't-mobile']
